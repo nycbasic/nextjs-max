@@ -1,3 +1,5 @@
+import { getFeaturedEvents } from "../dummy-data";
+
 function Home() {
   return (
     <div>
