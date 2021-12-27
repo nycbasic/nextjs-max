@@ -1,0 +1,11 @@
+Page Pre-Rendering
+ - NextJS pre-renders all the data needed for the webapp/website on the server before being sent to the client side/browser.
+ - Sends back all the JS code to the clientside too called Hydrate
+    - For page interactions and dynamic content.
+- initial page is pre-rendered.
+    Two Forms of Pre-Rendering
+    1) Static Generation - pre generated during build time Typically Recommended
+        - Prepared during build time and cached by the server. Server will send the pre-built pages with JS hydration.
+        - getStaticProps (Async function)
+            - sub-code will not be seen on the clientside. 
+    2) Server-side Rendering - pages are created after deployment when a request reaches the server.
