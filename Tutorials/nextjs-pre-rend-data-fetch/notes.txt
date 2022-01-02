@@ -9,3 +9,5 @@ Page Pre-Rendering
         - getStaticProps (Async function)
             - sub-code will not be seen on the clientside. 
     2) Server-side Rendering - pages are created after deployment when a request reaches the server.
+        - getStaticProps is a NextJS async function that allows written server side code to run.
+        - So within the encapsalation of the function, you can use node.js code.
