@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-
 import path from "path";
 
 function Home(props) {
@@ -14,6 +13,7 @@ function Home(props) {
 }
 
 export async function getStaticProps() {
+  console.log("regnerating...");
   const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
@@ -21,6 +21,8 @@ export async function getStaticProps() {
     props: {
       products: data.products,
     },
+    // time to regenerate the page/ISR
+    revalidate: 10,
   };
 }
 
