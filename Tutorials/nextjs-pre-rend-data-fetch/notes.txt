@@ -8,11 +8,20 @@ Page Pre-Rendering
         - Prepared during build time and cached by the server. Server will send the pre-built pages with JS hydration.
         - getStaticProps (Async function)
             - sub-code will not be seen on the clientside. 
+            - the function is executed before the component function. (*assuming because it's the even loop)
     2) Server-side Rendering - pages are created after deployment when a request reaches the server.
         - getStaticProps is a NextJS async function that allows written server side code to run.
         - So within the encapsalation of the function, you can use node.js code.
 Incremental Static Generation
     - Pre-generates a page and regenerates the page on a specific time interval. 
-        - revalidate key in the props object
-        - notFound key can be used if data fetched from server comes back as a 400 or any errors.
-        - redirect is another option that you can use if there are issues fetching data.
+        - revalidate - key in the props object
+        - notFound - key can be used if data fetched from server comes back as a 400 or any errors.
+        - redirect - is another option that you can use if there are issues fetching data.
+
+    - context vs router.query in getStaticProps
+        - context: 
+            - runs on the serverside, so data that is fetch does not require the browser to execute the data fetch.
+            - The data is preloaded before the the page is sent to the browser
+        - router.query
+            - requires the browser the fetch the data before the data can be loaded.
+            - Requires the HTTP Request for the page, and when the page is loaded, then an additional REST call to fetch the data.
