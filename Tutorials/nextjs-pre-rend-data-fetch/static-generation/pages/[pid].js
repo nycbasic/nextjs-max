@@ -1,5 +1,12 @@
+import fs from "fs/promises";
+import path from "path";
+
 function productDetailPage(props) {
   const { loadedProducts } = props;
+
+  if (!loadedProducts) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
@@ -22,6 +29,15 @@ export async function getStaticProps(context) {
     props: {
       loadedProducts: product,
     },
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { pid: "p1" } }
+    ],
+    fallback: "blocking",
   };
 }
 
