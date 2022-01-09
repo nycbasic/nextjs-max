@@ -9,7 +9,6 @@ const Events = () => {
 
   const searchEventsHandler = (year, month) => {
     const fullPath = `/events/${year}/${month}`;
-
     router.push(fullPath);
   };
 
