@@ -25,3 +25,6 @@ Incremental Static Generation
         - router.query
             - requires the browser the fetch the data before the data can be loaded.
             - Requires the HTTP Request for the page, and when the page is loaded, then an additional REST call to fetch the data.
+
+getStaticPaths
+ - s
