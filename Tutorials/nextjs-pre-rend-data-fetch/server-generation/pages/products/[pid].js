@@ -29,10 +29,10 @@ export async function getStaticProps(context) {
   const data = await getData();
   const product = data.products.find((product) => product.id === productId);
 
-  if(!product) {
+  if (!product) {
     return {
-      notFound: true
-    }
+      notFound: true,
+    };
   }
 
   return {
@@ -48,7 +48,7 @@ export async function getStaticPaths() {
   const params = ids.map((id) => ({ params: { pid: id } }));
   return {
     paths: params,
-    fallback: true,
+    fallback: "blocking",
   };
 }
 

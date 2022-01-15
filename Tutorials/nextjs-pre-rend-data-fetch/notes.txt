@@ -34,3 +34,9 @@ getStaticPaths
         - fallback - stops other pages from being pre-rendered and only pages needed to be pre-rendered.
             - The other pages are only pre-generated when they're needed.
             - requires a fallback state
+            - true allows you to pick specific pages to be pre-rendered and any other pages will be fetched and rendered.
+
+getServerSideProps 
+- Used to seperate pages that need server data such as cookies
+    - is compiled with the code when deployed, but does not pre-generate a page
+    - Only renders a page once ther request for the page has reached the server.
