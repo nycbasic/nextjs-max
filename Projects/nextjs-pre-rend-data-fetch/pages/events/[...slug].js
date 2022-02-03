@@ -1,32 +1,19 @@
 import { useRouter } from "next/router";
-import { getFilteredEvents } from "../../dummy-data";
+import { getFilteredEvents } from "../../helpers/api-util";
+import useSWR from "swr";
 import EventsList from "../../components/events/event-list";
 import ResultsTitle from "../../components/events/results-title";
 import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
 
-const FilterEvents = () => {
-  const router = useRouter();
-  const filteredData = router.query.slug;
+const FilterEvents = (props) => {
+  const { events, hasErrors, year, month } = props;
+  // const router = useRouter();
+  // const filteredData = router.query.slug;
 
-  if (!filteredData) {
-    return <p className="center">Loading...</p>;
-  }
+  
 
-  const filteredYear = filteredData[0];
-  const filteredMonth = filteredData[1];
-
-  const numYear = +filteredYear;
-  const numMonth = +filteredMonth;
-
-  if (
-    isNaN(numYear) ||
-    isNaN(numMonth) ||
-    numYear > 2030 ||
-    numYear < 2021 ||
-    numMonth > 12 ||
-    numMonth < 1
-  ) {
+  if (hasErrors) {
     return (
       <ErrorAlert>
         <p>Invalid Filter! Please adjust your values!</p>
@@ -37,9 +24,7 @@ const FilterEvents = () => {
     );
   }
 
-  const filteredEvents = getFilteredEvents({ year: numYear, month: numMonth });
-
-  if (!filteredEvents || filteredEvents.length === 0) {
+  if (!events || events.length === 0) {
     return (
       <ErrorAlert>
         <p>No Events Found for the Choosen Filter!</p>
@@ -50,14 +35,47 @@ const FilterEvents = () => {
     );
   }
 
-  const date = new Date(numYear, numMonth - 1);
+  const date = new Date(year, month - 1);
 
   return (
     <>
       <ResultsTitle date={date} />
-      <EventsList events={filteredEvents} />
+      <EventsList events={events} />
     </>
   );
 };
 
 export default FilterEvents;
+
+export async function getServerSideProps(context) {
+  const {
+    params: { slug },
+  } = context;
+
+  const year = +slug[0];
+  const month = +slug[1];
+
+  const events = await getFilteredEvents({
+    year: year,
+    month: month,
+  });
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    year > 2030 ||
+    year < 2021 ||
+    month < 1 ||
+    month > 12
+  ) {
+    return {
+      props: { hasError: true },
+    };
+  }
+  return {
+    props: {
+      events,
+      year,
+      month,
+    },
+  };
+}
