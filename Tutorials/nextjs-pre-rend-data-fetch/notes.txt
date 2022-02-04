@@ -40,3 +40,6 @@ getServerSideProps
 - Used to seperate pages that need server data such as cookies
     - is compiled with the code when deployed, but does not pre-generate a page
     - Only renders a page once ther request for the page has reached the server.
+
+Head
+ - Allows you to tags that are needed in head such as the title of the web app/site

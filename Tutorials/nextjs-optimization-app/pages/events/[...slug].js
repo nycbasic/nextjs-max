@@ -33,9 +33,14 @@ const FilterEvents = () => {
       }
       setEvents(events);
     };
-    fetchData().catch((error) => console.log(error));
-  }, [loadedEvents]);
+    fetchData().catch((error) => console.log("Something went wrong"));
+  }, []);
 
+  console.log(slug)
+
+  const numYear = +slug[0];
+  const numMonth = +slug[1];
+  
   const pageHeadData = (
     <Head>
       <title>Selected Events</title>
@@ -54,9 +59,6 @@ const FilterEvents = () => {
       </>
     );
   }
-
-  const numYear = +slug[0];
-  const numMonth = +slug[1];
 
   let filteredEvents = loadedEvents.filter((event) => {
     const eventDate = new Date(event.date);
