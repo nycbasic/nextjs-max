@@ -36,8 +36,23 @@ const FilterEvents = () => {
     fetchData().catch((error) => console.log(error));
   }, [loadedEvents]);
 
+  const pageHeadData = (
+    <Head>
+      <title>Selected Events</title>
+      <meta
+        name="description"
+        content={`All Events For ${numMonth}/${numYear}`}
+      />
+    </Head>
+  );
+
   if (!loadedEvents) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        {pageHeadData}
+        <p>Loading...</p>;
+      </>
+    );
   }
 
   const numYear = +slug[0];
@@ -84,13 +99,6 @@ const FilterEvents = () => {
 
   return (
     <>
-      <Head>
-        <title>Selected Events</title>
-        <meta
-          name="description"
-          content={`All Events For ${numMonth}/${numYear}`}
-        />
-      </Head>
       <ResultsTitle date={date} />
       <EventsList events={filteredEvents} />
     </>
