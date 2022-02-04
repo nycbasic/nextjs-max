@@ -43,3 +43,7 @@ getServerSideProps
 
 Head
  - Allows you to tags that are needed in head such as the title of the web app/site
+_document.js file
+- allows you to edit or add additonal items that is outside of the element tree of the app.
+Image
+    - allow you to change the image size for better optimization.
