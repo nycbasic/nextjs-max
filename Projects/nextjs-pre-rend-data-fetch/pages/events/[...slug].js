@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getFilteredEvents } from "../../helpers/api-util";
 import useSWR from "swr";
@@ -7,24 +8,66 @@ import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
 
 const FilterEvents = (props) => {
+  const [loadedEvents, setEvents] = useState();
   const { events, hasErrors, year, month } = props;
-  // const router = useRouter();
-  // const filteredData = router.query.slug;
+  const router = useRouter();
+  const { slug } = router.query;
 
-  
+  const { data, error } = useSWR(
+    "https://nextjs-dummy-data-default-rtdb.firebaseio.com/events.json"
+  );
 
-  if (hasErrors) {
-    return (
-      <ErrorAlert>
-        <p>Invalid Filter! Please adjust your values!</p>
-        <div className="center">
-          <Button link="/">Show All Events</Button>
-        </div>
-      </ErrorAlert>
-    );
+  console.log(error);
+
+  useEffect(() => {
+    const events = [];
+    if (data) {
+      for (const key in data) {
+        events.push({
+          id: key,
+          ...data[key],
+        });
+      }
+    }
+    setEvents(events);
+  }, [data]);
+
+  console.log(loadedEvents)
+
+  if (!loadedEvents) {
+    return <p>Loading...</p>;
   }
 
-  if (!events || events.length === 0) {
+  const numYear = +slug[0];
+  const numMonth = +slug[1];
+
+  let filteredEvents = loadedEvents.filter((event) => {
+    const eventDate = new Date(event.date);
+    return (
+      eventDate.getFullYear() === numYear &&
+      eventDate.getMonth() === numMonth - 1
+    );
+  });
+
+   if (
+     isNaN(numYear) ||
+     isNaN(numMonth) ||
+     numYear > 2030 ||
+     numYear < 2021 ||
+     numMonth < 1 ||
+     numMonth > 12
+   ) {
+     return (
+       <ErrorAlert>
+         <p>Invalid Filter! Please adjust your values!</p>
+         <div className="center">
+           <Button link="/">Show All Events</Button>
+         </div>
+       </ErrorAlert>
+     );
+   }
+
+  if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <ErrorAlert>
         <p>No Events Found for the Choosen Filter!</p>
@@ -35,12 +78,12 @@ const FilterEvents = (props) => {
     );
   }
 
-  const date = new Date(year, month - 1);
+  const date = new Date(numYear, numMonth - 1);
 
   return (
     <>
       <ResultsTitle date={date} />
-      <EventsList events={events} />
+      <EventsList events={filteredEvents} />
     </>
   );
 };
