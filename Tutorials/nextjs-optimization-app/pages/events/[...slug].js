@@ -15,32 +15,32 @@ const FilterEvents = () => {
   // const { data, error } = useSWR(
   //   "https://nextjs-dummy-data-default-rtdb.firebaseio.com/events.json", fetcher
   // );
+  const fetchData = async () => {
+    const res = await fetch(
+      "https://nextjs-dummy-data-default-rtdb.firebaseio.com/events.json"
+    );
+    const data = await res.json();
+    const events = [];
+    if (data) {
+      for (const key in data) {
+        events.push({
+          id: key,
+          ...data[key],
+        });
+      }
+    }
+    setEvents(events);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        "https://nextjs-dummy-data-default-rtdb.firebaseio.com/events.json"
-      );
-      const data = await res.json();
-      const events = [];
-      if (data) {
-        for (const key in data) {
-          events.push({
-            id: key,
-            ...data[key],
-          });
-        }
-      }
-      setEvents(events);
-    };
     fetchData().catch((error) => console.log("Something went wrong"));
   }, []);
 
-  console.log(slug)
+  console.log(slug);
 
   const numYear = +slug[0];
   const numMonth = +slug[1];
-  
+
   const pageHeadData = (
     <Head>
       <title>Selected Events</title>
@@ -71,7 +71,7 @@ const FilterEvents = () => {
   if (
     isNaN(numYear) ||
     isNaN(numMonth) ||
-    numYear > 2030 ||
+    numYear > 2022 ||
     numYear < 2021 ||
     numMonth < 1 ||
     numMonth > 12
