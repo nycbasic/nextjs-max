@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const Home = () => {
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
+  const [feedback, setFeedback] = useState([]);
 
   const submitFormHandler = (e) => {
     e.preventDefault();
@@ -11,7 +12,7 @@ const Home = () => {
     const text = feedbackInputRef.current.value;
     const data = { email, text };
 
-    console.log("FROM THE FRONT END", data)
+    console.log("FROM THE FRONT END", data);
 
     fetch("/api/feedback", {
       method: "POST",
@@ -22,6 +23,13 @@ const Home = () => {
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
+  };
+
+  const getAllFeedback = (e) => {
+    fetch("/api/feedback")
+      .then((res) => res.json())
+      .then((data) => setFeedback(data));
+      console.log(feedback)
   };
 
   return (
@@ -44,6 +52,19 @@ const Home = () => {
         </div>
         <button onClick={submitFormHandler}>Send Feedback</button>
       </form>
+      <button onClick={getAllFeedback}>Get all Feedback</button>
+      <div>
+        <ul>
+          {feedback.map((item) => {
+            return (
+              <li key={item.id}>
+                <div>{item.email}</div>
+                <div>{item.text}</div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
