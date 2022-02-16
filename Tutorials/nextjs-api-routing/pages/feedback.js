@@ -1,15 +1,15 @@
-import {useState} from "react";
-import { buildFeedBackPath, extractFeedback } from "../pages/api/feedback";
+import { useState } from "react";
+import { buildFeedBackPath, extractFeedback } from "./api/feedback";
 
 const Feedback = (props) => {
- const [feedbackDetails, setFeedback] = useState();
-const loadFeedBackHander = (id) => {
-   
-    fetch('/api/' + id).then(res => res.json()).then(data => {
-        setFeedback(data.feedback)
-    })
-}
-
+  const [feedbackDetails, setFeedback] = useState();
+  const loadFeedBackHander = (id) => {
+    fetch("/api/feedback/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+        setFeedback(data.feedback);
+      });
+  };
 
   const { feedback } = props;
   return (
@@ -19,8 +19,15 @@ const loadFeedBackHander = (id) => {
       <ul>
         {feedback.map((item) => {
           const { id, text } = item;
-          return <li key={id}>{text} <button onClick={loadFeedBackHander.bind(null, item.id)}>Show Details</button>
-          </li>;
+          console.log(id)
+          return (
+            <li key={id}>
+              {text}{" "}
+              <button onClick={loadFeedBackHander.bind(null, id)}>
+                Show Details
+              </button>
+            </li>
+          );
         })}
       </ul>
     </div>
