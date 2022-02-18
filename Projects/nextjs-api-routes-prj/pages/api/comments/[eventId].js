@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 const handler = async (req, res) => {
   const { eventId } = req.query;
   const client = await MongoClient.connect(
-    "mongodb+srv://nycbasic:Cqxq1433@!@web-development-project.b1s6x.mongodb.net/events?retryWrites=true&w=majority"
+    "mongodb+srv://<username>:<password>!@web-development-project.b1s6x.mongodb.net/events?retryWrites=true&w=majority"
   );
   if (req.method === "POST") {
     const { email, name, text } = JSON.parse(req.body);
