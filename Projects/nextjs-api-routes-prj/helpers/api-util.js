@@ -1,3 +1,5 @@
+import { MongoClient } from "mongodb";
+
 export async function getAllEvents() {
   const response = await fetch(
     "https://nextjs-dummy-data-default-rtdb.firebaseio.com/events.json"
@@ -40,3 +42,5 @@ export async function getFilteredEvents(dateFilter) {
 
   return filteredEvents;
 }
+
+

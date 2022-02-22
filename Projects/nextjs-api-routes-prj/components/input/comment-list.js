@@ -2,7 +2,6 @@ import Link from "next/link";
 import classes from "./comment-list.module.css";
 
 function CommentList(props) {
-  console.log(props.items);
   return (
     <ul className={classes.comments}>
       {/* Render list of comments - fetched from API */}
