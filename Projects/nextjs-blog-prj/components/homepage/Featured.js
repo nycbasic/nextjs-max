@@ -1,5 +1,5 @@
 export default function Featured () {
-    return <div>
+    return <>
         Featured
-    </div>
+    </>
 }
