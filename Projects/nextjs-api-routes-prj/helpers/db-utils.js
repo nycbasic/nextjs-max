@@ -1,9 +1,8 @@
 import { MongoClient } from "mongodb";
+import 'dotenv/config';
 
 export async function connectDb() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://<username>:<password>@web-development-project.b1s6x.mongodb.net/events?retryWrites=true&w=majority"
-  );
+  const client = await MongoClient.connect(process.env.DB);
 
   return client;
 }
