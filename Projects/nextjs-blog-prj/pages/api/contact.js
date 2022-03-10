@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     try {
       client = await MongoClient.connect(
-        "mongodb+srv://nycbasic:Cqxq1433%40!@web-development-project.b1s6x.mongodb.net/blog?retryWrites=true&w=majority"
+        "mongodb+srv://nycbasic:<password>@web-development-project.b1s6x.mongodb.net/blog?retryWrites=true&w=majority"
       );
     } catch (err) {
       console.log(client);
