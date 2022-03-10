@@ -2,14 +2,18 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const postDirectory = path.join(process.cwd(), "posts");
+const postDirectory = path.join(process.cwd(), "data");
 
-function getPostData(fileName) {
-  const filePath = path.join(postDirectory, fileName);
+export function getPostFiles() {
+  return fs.readdirSync(postDirectory);
+}
+
+export function getPostData(postIdentifier) {
+  const slug = postIdentifier.replace(/\.md$/, ""); // removes the file extension
+  const filePath = path.join(postDirectory, `${slug}.md`);
   const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
 
-  const slug = fileName.replace(/\.md$/, ""); // removes the file extension
+  const { data, content } = matter(fileContent);
 
   const postData = {
     slug,
@@ -21,9 +25,9 @@ function getPostData(fileName) {
 }
 
 export function getAllPosts() {
-  const postFiles = fs.readdirSync(postDirectory);
-  const allPosts = postFiles.map((postFile) => {
-    return getPostData(postFile);
+  const postFiles = getPostFiles();
+  const allPosts = postFiles.map((post) => {
+    return getPostData(post);
   });
 
   const sortedPosts = allPosts.sort((a, b) => (a.data > b.data ? -1 : 1));
@@ -31,7 +35,7 @@ export function getAllPosts() {
 }
 
 export function getFeaturedPosts() {
-  const getAllPosts = getAllPosts();
+  const allPosts = getAllPosts();
   const featuredPosts = allPosts.filter((post) => post.isFeatured);
   return featuredPosts;
 }
