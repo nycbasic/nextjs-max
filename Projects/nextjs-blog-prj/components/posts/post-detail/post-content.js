@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
 import ReactMarkdown from "react-markdown";
@@ -37,6 +39,19 @@ export default function PostContent({ post }) {
         );
       }
       return <p>{paragraph.children}</p>;
+    },
+
+    // Need to Review
+    code(code) {
+      const { className, children } = code;
+      const match = /language-(\w+)/.exec(className || "");
+      return (
+        <SyntaxHighlighter
+          style={atomDark}
+          language={match[1]}
+          children={children}
+        />
+      );
     },
   };
 
